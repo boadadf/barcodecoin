@@ -1,0 +1,35 @@
+<html>
+	
+    <head>      
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+			<script language="JavaScript" type="text/javascript" src="js/seq/aes.js"></script>
+					<script language="JavaScript" type="text/javascript" src="js/seq/jsbn.js"></script>
+							<script language="JavaScript" type="text/javascript" src="js/seq/random.js"></script>
+									<script language="JavaScript" type="text/javascript" src="js/seq/hash.js"></script>
+											<script language="JavaScript" type="text/javascript" src="js/seq/rsa.js"></script>
+													<script language="JavaScript" type="text/javascript" src="js/seq/api.js"></script>
+															<script language="JavaScript" type="text/javascript" src="js/js-sha256.js"></script>
+		<script language="JavaScript" type="text/javascript" src="js/client.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/nerdy.css">
+    </head>
+    
+    <body style="font-family: monospace" onload="loadKey();loadNodeName('node-field');">
+	<div>
+		<p style="text-align:center;"><img src="img/nerdy_big.png"  style="width:50%"/></p>	
+	</div>
+		 <div >
+			  <button class="btn-group" onclick="client.createWallet();">Create wallet</button>
+			  <div class="btn-file" style=" text-align: center; display: grid;vertical-align: middle;">
+				  <label style="margin-top:5px;vertical-align:middle;display:inline-block;" for="files">Load wallet</label>
+				  <input id="files" style="visibility:hidden;" type="file" onchange="onFileSelected(event, client.loadWallet);">
+				</div>
+			  <button onclick="window.location.href='main.html'"class="btn-group">Back</button>
+		</div> 
+		<div style="width=100%">
+			<p id="key-field" style="word-break: break-all;text-align:center;">Key:?</p>	
+			<p id="node-field" style="word-break: break-all;text-align:center;">Node:?</p>	
+		</div>
+    </body>
+    
+</html>

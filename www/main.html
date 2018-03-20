@@ -1,0 +1,43 @@
+<html>
+	
+    <head>      
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Expires" content="-1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+			<script language="JavaScript" type="text/javascript" src="js/client.js"></script>
+		<script>
+		function init() {
+			loadKey();
+			loadNodeName('node-field');
+			if(client.publicKeyID) {
+				document.getElementById("btn-mine").className="btn-group";
+				document.getElementById("btn-transfer").className="btn-group";
+				document.getElementById("btn-balance").className="btn-group";
+				document.getElementById("btn-withdraw").className="btn-group";
+				document.getElementById("btn-deposit").className="btn-group";
+			}			
+		}
+        </script>
+		<link rel="stylesheet" type="text/css" href="css/nerdy.css">
+    </head>
+    
+    <body style="font-family: monospace;" onload="init();">
+		<p style="text-align:center;"><img src="img/nerdy_big.png" style="width:50%" /></p>	
+		 <div >
+			  <button class="btn-group" onclick="window.location = 'createload.html';">Create/Load wallet</button>
+			  <button id="btn-mine" class="btn-disabled" onclick="window.location='mine.html';">Mine</button>
+			  <button id="btn-transfer" class="btn-disabled" onclick="window.location='transfer.html';">Transfer</button>
+			  <button id="btn-balance" class="btn-disabled" onclick="window.location='balance.html';">Balance</button>
+			  <button class="btn-group" onclick="window.location='historical.html';">Transaction History</button>
+			  <button id="btn-withdraw" class="btn-disabled" onclick="window.location='cash.html';">Withdraw</button>
+			  <button id="btn-deposit" class="btn-disabled"  onclick="window.location='deposit.html';">Deposit</button>
+			  <button class="btn-group"  onclick="window.location='nodes.html';">Nodes</button>
+			  <button class="btn-group">About</button>
+		</div> 
+		<div style="width=100%">
+			<p id="key-field" style="word-break: break-all;text-align:center;">Key:?</p>	
+			<p id="node-field" style="word-break: break-all;text-align:center;">Node:?</p>	
+		</div>
+    </body>
+    
+</html>

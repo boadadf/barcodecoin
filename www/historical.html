@@ -1,0 +1,76 @@
+<html>
+	
+    <head>      
+	 <meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<link rel="stylesheet" type="text/css" href="css/nerdy.css">
+		<link rel="stylesheet" type="text/css" media="screen" href="themes/redmond/jquery-ui-custom.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="themes/ui.jqgrid.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="themes/ui.multiselect.css" />
+
+<script src="js/jquery.js" type="text/javascript"></script>
+<script src="js/jquery-ui-custom.min.js" type="text/javascript"></script>
+<script src="js/jquery.layout.js" type="text/javascript"></script>
+<script src="js/i18n/grid.locale-en.js" type="text/javascript"></script>
+<script type="text/javascript">
+	$.jgrid.no_legacy_api = true;
+	$.jgrid.useJSON = true;
+</script>
+<script src="js/ui.multiselect.js" type="text/javascript"></script>
+<script src="js/jquery.jqGrid.js" type="text/javascript"></script>
+<script src="js/jquery.tablednd.js" type="text/javascript"></script>
+<script src="js/jquery.contextmenu.js" type="text/javascript"></script>
+			<script language="JavaScript" type="text/javascript" src="js/seq/aes.js"></script>
+					<script language="JavaScript" type="text/javascript" src="js/seq/jsbn.js"></script>
+							<script language="JavaScript" type="text/javascript" src="js/seq/random.js"></script>
+									<script language="JavaScript" type="text/javascript" src="js/seq/hash.js"></script>
+											<script language="JavaScript" type="text/javascript" src="js/seq/rsa.js"></script>
+													<script language="JavaScript" type="text/javascript" src="js/seq/api.js"></script>
+													
+	 
+	 <script language="JavaScript" type="text/javascript" src="js/seq/cryptico.js"></script>	
+	 <script language="JavaScript" type="text/javascript" src="js/js-sha256.js"></script>
+	 <script language="JavaScript" type="text/javascript" src="js/client.js"></script>
+	 <script language="JavaScript" type="text/javascript" src="js/historical.js"></script>
+
+    </head>
+    
+    <body style="font-family: monospace;" onload="init();">
+	<div>
+		<p style="text-align:center;"><img src="img/nerdy_big.png"  style="width:200"/></p>	
+	</div>
+	<div>
+		<table>
+			<tr>
+			<td>Node:</td><td><p id="node" /></td>
+			</tr>
+			<tr>
+			<td>Proof:</td><td><img id="proof" width="200"/></td>
+			</tr>
+			<tr>
+			<td>Hash:</td><td><p id="hash" /></td>
+			</tr>
+			<tr>
+			<td>Previous hash:</td><td><p id="previous-hash" /></td>
+			</tr>
+			</tr>
+			<tr>
+			<td>Result hash:</td><td><p id="result-hash" /></td>
+			</tr>
+		</table>
+	</div>
+	<div> 	
+	<table id="list4"></table>
+	<div id="pager2"></div>
+	</div>
+		 <div >
+		  <button onclick="window.history.go(-1); return false;"class="btn-group">Back</button>
+		</div> 
+	<div style="width=100%">
+		<p id="key-field" style="word-break: break-all;text-align:center;">Key:?</p>
+		<p id="node-field" style="word-break: break-all;text-align:center;">Node:?</p>			
+	</div>
+	
+    </body>
+    
+</html>

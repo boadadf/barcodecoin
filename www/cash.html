@@ -1,0 +1,73 @@
+<html>
+	
+    <head>      
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+		<script language="JavaScript" type="text/javascript" src="js/seq/jsbn.js"></script>
+        <script language="JavaScript" type="text/javascript" src="js/seq/random.js"></script>
+        <script language="JavaScript" type="text/javascript" src="js/seq/hash.js"></script>
+        <script language="JavaScript" type="text/javascript" src="js/seq/rsa.js"></script>
+        <script language="JavaScript" type="text/javascript" src="js/seq/aes.js"></script>
+        <script language="JavaScript" type="text/javascript" src="js/seq/api.js"></script>
+		<script language="JavaScript" type="text/javascript" src="js/qrcode.js"></script>
+		<script type="text/javascript" src="js/jquery.js"></script>
+		<script language="JavaScript" type="text/javascript" src="js/html2canvas.js"></script>
+		<script language="JavaScript" type="text/javascript" src="js/html2canvas.svg.js"></script>		
+		<script language="JavaScript" type="text/javascript" src="js/client.js"></script>
+		<script language="JavaScript" type="text/javascript" src="js/cash.js"></script>
+		
+		<script>
+		function init() {
+			loadKey();
+			loadNodeName();
+			client.loadServerPublicKey();
+		}
+			
+        </script>
+		<link rel="stylesheet" type="text/css" href="css/nerdy.css" >
+    </head>
+    
+    <body style="font-family: monospace" onload="init();">
+		<div style="position: absolute; opacity: 0.0;">
+			<div id="tempImageThumbnail"></div>
+		</div>
+		<div>
+		<p style="text-align:center;"><img src="img/nerdy_big.png"  style="width:50%"/></p>	
+		</div>
+		<div>
+			<table  style="font-size:30px; font-family:bold">
+			<tr>
+			<td style="width:auto; text-align:left; white-space: nowrap">Amount</td><td style="width:100%;"><input id="amount-field" type="number" style="width:100%; height:50px"></td>
+			</tr>
+			<tr>
+			<td>Status</td><td><p id="balance-field" style="text-align:center;font-size:40px"></p></td>
+			</tr>
+			</table>
+		</div>
+
+		 <div >
+			  <button class="btn-group" onclick="create();">Create note</button>
+			  <button onclick="window.history.go(-1); return false;"class="btn-group">Back</button>
+		</div> 
+		<div>
+			<p id="key-field" style="text-align:center;">Key:?</p>	
+			<p id="node-field" style="word-break: break-all;text-align:center;">Node:?</p>	
+		</div>
+		<script type="text/javascript">
+			
+			var textAmount = document.getElementById("amount-field");
+			textAmount.addEventListener("keyup", sendCode);
+
+			function sendCode(e) {
+				var clickedEl = e.target;
+				if(e.which == 13){
+					clickedEl.blur();
+					//rest of function
+					return false;
+				}
+			}
+		</script>
+    </body>
+    
+</html>

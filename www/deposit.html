@@ -1,0 +1,45 @@
+<html>
+	
+    <head>      
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+			<script language="JavaScript" type="text/javascript" src="js/seq/jsbn.js"></script>
+        <script language="JavaScript" type="text/javascript" src="js/seq/random.js"></script>
+        <script language="JavaScript" type="text/javascript" src="js/seq/hash.js"></script>
+        <script language="JavaScript" type="text/javascript" src="js/seq/rsa.js"></script>
+        <script language="JavaScript" type="text/javascript" src="js/seq/aes.js"></script>
+        <script language="JavaScript" type="text/javascript" src="js/seq/api.js"></script>
+		<script language="JavaScript" type="text/javascript" src="js/qrcode.js"></script>		
+		<script language="JavaScript" type="text/javascript" src="js/jsQR.js"></script>
+		<script language="JavaScript" type="text/javascript" src="js/client.js"></script>
+		<script language="JavaScript" type="text/javascript" src="js/deposit.js"></script>
+
+		<link rel="stylesheet" type="text/css" href="css/deposit.css">
+		<link rel="stylesheet" type="text/css" href="css/nerdy.css">
+		<script>
+        function init() {
+			loadKey();
+			loadNodeName();
+			client.loadServerPublicKey();
+		}
+		</script>
+	</head>
+    
+    <body style="font-family: monospace;" onload="init();">
+		<div>
+		<p style="text-align:center;"><img src="img/nerdy_big.png"  style="width:50%"/></p>	
+		</div>
+		<div id="video-panel"></div>
+		 <div >			 
+		      <button id="action-btn" class="btn-group" onclick="readQR();">Deposit</button>
+			  <button onclick="window.history.go(-1); return false;"class="btn-group">Back</button>
+		</div> 
+		</div> 
+			<p style="text-align:center;">To deposit a Nerdynote, press 'Deposit' and point your camera to the QR code found in your note.</p>	
+		<div>
+		<div>
+			<p id="key-field" style="text-align:center;">Key:?</p>	
+			<p id="node-field" style="word-break: break-all;text-align:center;">Node:?</p>	
+		</div>
+    </body> 
+</html>

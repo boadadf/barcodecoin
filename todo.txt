@@ -1,0 +1,2 @@
+sender_message_map clean get?
+get all nodes from registered and register on those.

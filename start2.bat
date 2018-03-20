@@ -1,0 +1,1 @@
+npm start -- --name edu2 --hostname 192.168.192.34 --port 8443 --register https://192.168.192.34:443

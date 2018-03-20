@@ -1,0 +1,83 @@
+<html>
+	
+    <head>      
+	
+	  <meta charset="UTF-8">
+	   <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	
+			<script language="JavaScript" type="text/javascript" src="js/seq/aes.js"></script>
+					<script language="JavaScript" type="text/javascript" src="js/seq/jsbn.js"></script>
+							<script language="JavaScript" type="text/javascript" src="js/seq/random.js"></script>
+									<script language="JavaScript" type="text/javascript" src="js/seq/hash.js"></script>
+											<script language="JavaScript" type="text/javascript" src="js/seq/rsa.js"></script>
+													<script language="JavaScript" type="text/javascript" src="js/seq/api.js"></script>
+	<script language="JavaScript" type="text/javascript" src="js/seq/cryptico.js"></script>		
+        <script language="JavaScript" type="text/javascript" src="js/js-sha256.js"></script>
+	<script language="JavaScript" type="text/javascript" src="js/quagga/prism.min.js"></script>
+	<script language="JavaScript" type="text/javascript" src="js/quagga/quagga.js"></script>
+	<script language="JavaScript" type="text/javascript" src="js/jquery.js"></script>
+	<script language="JavaScript" type="text/javascript" src="js/client.js"></script>
+	<script language="JavaScript" type="text/javascript" src="js/mine.js"></script>
+	
+	<link rel="stylesheet" type="text/css" href="css/mine.css">
+	<link rel="stylesheet" type="text/css" href="css/nerdy.css">
+<link rel="stylesheet" type="text/css" media="screen" href="themes/redmond/jquery-ui-custom.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="themes/ui.jqgrid.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="themes/ui.multiselect.css" />
+
+<script src="js/jquery.js" type="text/javascript"></script>
+<script src="js/jquery-ui-custom.min.js" type="text/javascript"></script>
+<script src="js/jquery.layout.js" type="text/javascript"></script>
+<script src="js/i18n/grid.locale-en.js" type="text/javascript"></script>
+<script type="text/javascript">
+	$.jgrid.no_legacy_api = true;
+	$.jgrid.useJSON = true;
+</script>
+<script src="js/ui.multiselect.js" type="text/javascript"></script>
+<script src="js/jquery.jqGrid.js" type="text/javascript"></script>
+<script src="js/jquery.tablednd.js" type="text/javascript"></script>
+<script src="js/jquery.contextmenu.js" type="text/javascript"></script>
+
+
+
+	</head>
+
+<body onload="init();"> 
+     <div>
+		<p style="text-align:center;"><img src="img/nerdy_big.png"  style="width:50%" /></p>	
+	</div>
+<section id="container" class="container">
+<div class="controls">
+		<fieldset class="reader-config-group">
+		 <label>
+                <span>Camera</span>
+                <select name="input-stream_constraints" id="deviceSelection">
+                </select>
+            </label>
+        </fieldset>
+		</div>
+    <div id="result_strip">
+        <ul class="thumbnails"></ul>
+    </div>
+    <div id="interactive" class="viewport" style="visibility: hidden; height:0px"></div>
+</section>	
+	<div>
+		  <button id="action-btn" class="btn-group" onclick="readBarcode();">Read barcode (Android)</button>
+		   <div class="btn-file" style=" text-align: center; display: grid;vertical-align: middle;">
+				  <label style="margin-top:5px;vertical-align:middle;display:inline-block;" for="files">Upload barcode</label>
+				  <input id="files" style="visibility:hidden;" type="file" onchange="onFileSelected(event);" accept="image/x-png,image/gif,image/jpeg" />
+		  </div>
+		  <button onclick="window.history.go(-1); return false;"class="btn-group">Back</button>
+	</div> 	
+	<br>
+	<table id="list4"></table>
+	</div>
+	</div>
+	<div style="width=100%">
+		<p id="key-field" style="word-break: break-all;text-align:center;">Key:?</p>	
+		<p id="node-field" style="word-break: break-all;text-align:center;">Node:?</p>	
+	</div>
+</body>
+    
+</html>

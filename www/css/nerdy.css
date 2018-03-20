@@ -1,0 +1,63 @@
+.btn-disabled  {
+    background-color: #bff2c1; /* Green  light background */
+    border: 1px solid green; /* Green border */
+    color: white; /* White text */
+    cursor: default; /* Pointer/hand icon */
+    width: 100%; /* Set a width if needed */
+    display: block; /* Make the buttons appear below each other */
+	height: 50px;
+	font-weight: bold;
+	font-size: 30;
+	margin-top:10px;
+}
+.btn-group {
+    background-color: #4CAF50; /* Green background */
+    border: 1px solid green; /* Green border */
+    color: white; /* White text */
+    cursor: pointer; /* Pointer/hand icon */
+    width: 100%; /* Set a width if needed */
+    display: block; /* Make the buttons appear below each other */
+	height: 50px;
+	font-size: 30;
+	margin-top:10px;
+}
+
+.btn-file {
+    background-color: #4CAF50; /* Green background */
+    border: 1px solid green; /* Green border */
+    color: white; /* White text */
+    cursor: pointer; /* Pointer/hand icon */
+    width: 100%; /* Set a width if needed */
+    display: block; /* Make the buttons appear below each other */
+	height: 50px;
+	font-size: 30;
+	margin-top:10px;
+}
+label {
+    font-family: arial, sans-serif;
+}
+
+.btn-group button:not(:last-child) {
+    border-bottom: none; /* Prevent double borders */
+}
+
+/* Add a background color on hover */
+.btn-group button:hover {
+    background-color: #3e8e41;
+}
+
+.bgimg {
+ background-image: url('../img/nerdy_back.png');
+ background-repeat: no-repeat;
+background-position: center left; 
+background-size: contain;
+height:260px;
+}
+
+div.visualization {
+   width:1009px;
+   height:440px;
+   overflow:visible;
+   background-color: #fff;
+   color:transparent;
+}
