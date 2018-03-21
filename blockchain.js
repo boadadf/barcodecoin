@@ -42,7 +42,6 @@ var privateKey  = fs.readFileSync('key.pem', 'utf8');
 var certificate = fs.readFileSync('cert.pem', 'utf8');
 var uuidv4 = require('uuid/v4');
 var nodeID = uuidv4();
-var nconf = require('nconf').argv();
 var cors = require('cors')
 var HashMap = require('hashmap');
 const Quagga = require('quagga').default;
@@ -82,7 +81,7 @@ Blockchain.prototype = {
             'transactions': transactions,
             'proof': proof,
             'previous_hash': (this.lastId) ? hash(this.lastBlock) : 1,
-	    'node':name
+	    'node':NAME
         }
         this.includeBlock(block, function() {
 		if(Number(g.lastId)>1) {
@@ -288,7 +287,7 @@ Blockchain.prototype = {
 				for (var i=localNodes.length-1;i >= 0; i--){
 					var testNode = localNodes[i];
 					if(testNode.url == remoteURL) {
-						if(testNode.name == name) {
+						if(testNode.name == NAME) {
 							found = true;
 							break;
 						} else {
@@ -930,17 +929,19 @@ app.post('/nodes/register', function(request, response) {
 	
 });
 
-var port = nconf.get('port');
-var hostname = nconf.get('hostname');
-var localURI = "https://"+hostname+":"+port;
+var PORT = process.env.OPENSHIFT_NODEJS_PORT || 443;
+var IPADDRESS = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
+var localURI = "https://"+IPADDRESS+":"+PORT;
+var REGISTER = process.env.OPENSHIFT_NODEJS_REGISTER_TO || '127.0.0.1:8443';
+
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 var server;
 
 var persistence;
-var name = nconf.get('name');
+var NAME = process.env.OPENSHIFT_NODEJS_NAME || 'edu';
 var level = require('level');
 var initFunctions = [];
-var blockchain = new Blockchain(name);
+var blockchain = new Blockchain(NAME);
 
 
 initFunctions.push(startServer);
@@ -964,7 +965,7 @@ function initNext() {
 
 function startServer(callback) {
 	console.log('starting server...');
-	server = https.createServer(credentials, app).listen(port, hostname, function() {
+	server = https.createServer(credentials, app).listen(PORT, IPADDRESS, function() {
 	    console.log('Server running at %s', localURI);
 	    console.log('...done starting server');
 	    callback();
@@ -973,10 +974,10 @@ function startServer(callback) {
 
 function loadNodes(callback) {
 	console.log('loading nodes...');
-	var node = nconf.get('register');
-	console.log('register to:'+node);
-	if(node) {		
-		blockchain.registerNode(node, function() {
+	
+	console.log('register to:'+REGISTER);
+	if(REGISTER) {		
+		blockchain.registerNode(REGISTER, function() {
 			console.log('...done loading nodes');
 			callback();
 		});
@@ -1019,7 +1020,7 @@ function loadLastBlock(callback) {
 
 function loadDb(callback) {
     console.log('...loading db');
-    persistence = level('./'+name, function() {
+    persistence = level('./'+NAME, function() {
     console.log('...done loading db');
     callback();
     });
