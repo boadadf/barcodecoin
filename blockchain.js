@@ -679,6 +679,11 @@ function notifyTransaction(signedMessage, traveledNodes) {
 	});
 }
 
+app.use('/', function (req, res, next) {
+  console.log("received request: " + req.originalUrl);
+  next();
+});
+
 app.use(express.static(__dirname + '/www'));
 console.log(__dirname);
 
@@ -929,10 +934,10 @@ app.post('/nodes/register', function(request, response) {
 	
 });
 
-var PORT = process.env.OPENSHIFT_NODEJS_PORT || 443;
-var IPADDRESS = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
+var PORT = process.env.OPENSHIFT_NODEJS_PORT || 8080;
+var IPADDRESS = process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0';
 var localURI = "https://"+IPADDRESS+":"+PORT;
-var REGISTER = process.env.OPENSHIFT_NODEJS_REGISTER_TO || '127.0.0.1:8443';
+var REGISTER = process.env.OPENSHIFT_NODEJS_REGISTER_TO || 'https://1.1.1.1:8080';
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 var server;
