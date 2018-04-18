@@ -27,11 +27,11 @@
 							name = "Download.bin";
 						  navigator.saveBlob(blob, name);
 						};
-						showSave(imgBlob, value+'_Nerdys.png',"image/png");
+						showSave(imgBlob, value+'_barcodes.png',"image/png");
 					  }
 					} else {
 					  if ($('#export-image-container').length == 0)						 
-						  $('body').append('<a id="export-image-container" download="'+value+'_Nerdys.jpg">')
+						  $('body').append('<a id="export-image-container" download="'+value+'_barcodes.jpg">')
 					  img = canvas.toDataURL("image/jpeg")
 					  img = img.replace('data:image/jpeg;base64,', '')
 					  finalImageSrc = 'data:image/jpeg;base64,' + img
@@ -49,6 +49,6 @@
 				var p = document.getElementById("key-field");
 				client.transferToNewWallet(amount, (jsonPrivateKey)=>{					
 						printNote(amount, jsonPrivateKey);
-						p.innerHTML = 'Your account will be debited with '+value+' NRD';						
+						p.innerHTML = 'Your account will be debited with '+value+' Barcodes';						
 				},(error)=>{p.innerHTML = 'Error, cannot cash:'+error;});
 			}
