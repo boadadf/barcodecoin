@@ -699,12 +699,6 @@ app.use(function(req, res, next) {
   next();
 });
 
-http.get('*', function(req, res) {
-  var path = req.headers.host;
-  var pos = path.indexOf(':');
-  res.redirect('https://' + path.substr(0, pos) + ':' + String(app.get('port')));
-});
-
 app.get('/blockchain/update', function(request, response) {
 	   var url = request.query.url;
 	   blockchain.updateChain(url, function(replaced) {
@@ -966,6 +960,15 @@ initFunctions.push(loadChains);
 var initCounter = 0;
 initNext();
 
+app.all('*', ensureSecure); 
+
+function ensureSecure(req, res, next){
+  if(req.secure){
+    return next();
+  };
+  res.redirect('https://' + req.hostname + req.url); // express 4.x
+}
+
 function initNext() {
 	console.log('initNext');
 	if(initCounter<initFunctions.length) {
@@ -977,7 +980,8 @@ function initNext() {
 
 function startServer(callback) {
 	console.log('starting server...');
-	http.createServer(app);
+	http.createServer(app).listen(80);
+	
 	server = https.createServer(credentials, app).listen(PORT, IPADDRESS, function() {
 	    console.log('Server running at %s', localURI);
 	    console.log('...done starting server');
