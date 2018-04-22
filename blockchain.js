@@ -38,6 +38,7 @@ cryptico.verify = function(plaintext) {
 }
 
 var https = require('https');
+var http = require('http');
 var privateKey  = fs.readFileSync('key.pem', 'utf8');
 var certificate = fs.readFileSync('cert.pem', 'utf8');
 var uuidv4 = require('uuid/v4');
@@ -698,6 +699,12 @@ app.use(function(req, res, next) {
   next();
 });
 
+http.get('*', function(req, res) {
+  var path = req.headers.host;
+  var pos = path.indexOf(':');
+  res.redirect('https://' + path.substr(0, pos) + ':' + String(app.get('port')));
+});
+
 app.get('/blockchain/update', function(request, response) {
 	   var url = request.query.url;
 	   blockchain.updateChain(url, function(replaced) {
@@ -970,6 +977,7 @@ function initNext() {
 
 function startServer(callback) {
 	console.log('starting server...');
+	http.createServer(app);
 	server = https.createServer(credentials, app).listen(PORT, IPADDRESS, function() {
 	    console.log('Server running at %s', localURI);
 	    console.log('...done starting server');
