@@ -960,7 +960,7 @@ initFunctions.push(loadChains);
 var initCounter = 0;
 initNext();
 
-app.all('*', ensureSecure); 
+//app.all('*', ensureSecure); 
 
 function ensureSecure(req, res, next){
   if(req.secure){
@@ -980,7 +980,7 @@ function initNext() {
 
 function startServer(callback) {
 	console.log('starting server...');
-	http.createServer(app).listen(80);
+	//http.createServer(app).listen(80);
 	
 	server = https.createServer(credentials, app).listen(PORT, IPADDRESS, function() {
 	    console.log('Server running at %s', localURI);
