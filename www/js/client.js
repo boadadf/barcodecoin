@@ -174,7 +174,7 @@ Client.prototype = {
 	transferToNewWallet: function(amount, callback, callbackError) {
 		var recipientPrivateKey = createPrivateKey();	
 		var recipientpublicKeyID = createPublicKeyID(this.privateKey);		
-		this.transfer(recipientPrivateKey, recipientpublicKeyID, amount, (status)=> {
+		this.transfer(client.privateKey, recipientpublicKeyID, amount, (status)=> {
 			if('accepted'==status) {
 				var jsonPrivateKey = JSON.stringify({'privateKey':recipientPrivateKey.toJSON()});
 				callback(jsonPrivateKey);
