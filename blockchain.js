@@ -1033,7 +1033,7 @@ function loadLastBlock(callback) {
 
 function loadDb(callback) {
     console.log('...loading db');
-    persistence = level('./'+NAME, function() {
+    persistence = level('/db/'+NAME, function() {
     console.log('...done loading db');
     callback();
     });
