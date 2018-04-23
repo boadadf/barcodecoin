@@ -1,10 +1,7 @@
-Tanks
+Barcodecoin
 ======
 
-Multiplayer tank game developed in nodejs.
+Alt coin using blockchain developed in nodejs.
 
-Play it [here](https://rubentd-tanks.herokuapp.com/)
+Test it [here](https://barcodenode1.ddns.net/)
 
-Demo
-=====
-![online tanks game](screenshots/tanks_1.gif)
