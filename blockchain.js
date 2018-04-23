@@ -39,8 +39,8 @@ cryptico.verify = function(plaintext) {
 
 var https = require('https');
 var http = require('http');
-var privateKey  = fs.readFileSync('key.pem', 'utf8');
-var certificate = fs.readFileSync('cert.pem', 'utf8');
+var privateKey  = fs.readFileSync(NAME+'_key.pem', 'utf8');
+var certificate = fs.readFileSync(NAME+'_cert.pem', 'utf8');
 var uuidv4 = require('uuid/v4');
 var nodeID = uuidv4();
 var cors = require('cors')
@@ -163,6 +163,7 @@ Blockchain.prototype = {
 			return;
 		}
 		if(sender!=0 && sender!=cryptico.publicKeyID(validated.publicKeyString)) {
+		console.log(sender+'///'+validated.publicKeyString+'///'+cryptico.publicKeyID(validated.publicKeyString));
 			callback('fail_sender_not_signer');
 		}
 		if(sender==0 && amount!=25) {
@@ -1037,7 +1038,7 @@ function loadLastBlock(callback) {
 
 function loadDb(callback) {
     console.log('...loading db');
-    persistence = level('/db/'+NAME, function() {
+    persistence = level('./'+NAME, function() {
     console.log('...done loading db');
     callback();
     });
