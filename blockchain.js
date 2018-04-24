@@ -5,6 +5,26 @@ var bodyParser = require("body-parser");
 var fs = require('fs');
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 var cryptico = require("cryptico-js");
+require('dotenv').config();
+var http = require('http');
+
+var PORT = process.env.NODEJS_PORT || 8080;
+var IPADDRESS = process.env.NODEJS_IP || '0.0.0.0';
+var localURI = "https://"+IPADDRESS+":"+PORT;
+var REGISTER = process.env.NODEJS_REGISTER_TO || 'https://1.1.1.1:8080';
+
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+var NAME = process.env.NODEJS_NAME || 'edu';
+var level = require('level');
+var initFunctions = [];
+
+var cors = require('cors');
+var HashMap = require('hashmap');
+
+const Quagga = require('quagga').default;
+
+var server;
+var persistence;
 
 cryptico.verify = function(plaintext) {
     plaintext = plaintext.split("::52cee64bb3a38f6403386519a39ac91c::");
@@ -37,16 +57,6 @@ cryptico.verify = function(plaintext) {
     }
 }
 
-var https = require('https');
-var http = require('http');
-var privateKey  = fs.readFileSync(NAME+'_key.pem', 'utf8');
-var certificate = fs.readFileSync(NAME+'_cert.pem', 'utf8');
-var uuidv4 = require('uuid/v4');
-var nodeID = uuidv4();
-var cors = require('cors')
-var HashMap = require('hashmap');
-const Quagga = require('quagga').default;
-var credentials = {key: privateKey, cert: certificate, passphrase: "dani23"};
 
 function Blockchain(inName) {
     this.current_transactions = [];
@@ -936,21 +946,6 @@ app.post('/nodes/register', function(request, response) {
 	
 });
 
-var PORT = process.env.NODEJS_PORT || 8080;
-var IPADDRESS = process.env.NODEJS_IP || '0.0.0.0';
-var localURI = "https://"+IPADDRESS+":"+PORT;
-var REGISTER = process.env.NODEJS_REGISTER_TO || 'https://1.1.1.1:8080';
-
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-var server;
-
-var persistence;
-var NAME = process.env.NODEJS_NAME || 'edu';
-var level = require('level');
-var initFunctions = [];
-var blockchain = new Blockchain(NAME);
-
-
 initFunctions.push(startServer);
 initFunctions.push(loadDb);
 initFunctions.push(loadLastId);
@@ -958,17 +953,9 @@ initFunctions.push(loadLastBlock);
 initFunctions.push(loadNodes);
 initFunctions.push(loadChains);
 
+var blockchain = new Blockchain(NAME);
 var initCounter = 0;
 initNext();
-
-//app.all('*', ensureSecure); 
-
-function ensureSecure(req, res, next){
-  if(req.secure){
-    return next();
-  };
-  res.redirect('https://' + req.hostname + req.url); // express 4.x
-}
 
 function initNext() {
 	console.log('initNext');
@@ -981,9 +968,7 @@ function initNext() {
 
 function startServer(callback) {
 	console.log('starting server...');
-	//http.createServer(app).listen(80);
-	
-	server = https.createServer(credentials, app).listen(PORT, IPADDRESS, function() {
+	http.createServer(app).listen(PORT, IPADDRESS, function() {
 	    console.log('Server running at %s', localURI);
 	    console.log('...done starting server');
 	    callback();
@@ -1022,6 +1007,7 @@ function loadLastId(callback) {
 	});			
 		
 }	
+
 function loadLastBlock(callback) {
 	console.log('loading last block...');
 	persistence.get('lastBlock', function(err,data) {
