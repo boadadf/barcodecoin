@@ -936,16 +936,16 @@ app.post('/nodes/register', function(request, response) {
 	
 });
 
-var PORT = process.env.OPENSHIFT_NODEJS_PORT || 8080;
-var IPADDRESS = process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0';
+var PORT = process.env.NODEJS_PORT || 8080;
+var IPADDRESS = process.env.NODEJS_IP || '0.0.0.0';
 var localURI = "https://"+IPADDRESS+":"+PORT;
-var REGISTER = process.env.OPENSHIFT_NODEJS_REGISTER_TO || 'https://1.1.1.1:8080';
+var REGISTER = process.env.NODEJS_REGISTER_TO || 'https://1.1.1.1:8080';
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 var server;
 
 var persistence;
-var NAME = process.env.OPENSHIFT_NODEJS_NAME || 'edu';
+var NAME = process.env.NODEJS_NAME || 'edu';
 var level = require('level');
 var initFunctions = [];
 var blockchain = new Blockchain(NAME);
