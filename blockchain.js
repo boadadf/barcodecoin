@@ -550,7 +550,7 @@ function getPOW(barcode_image, callback) {
 			readers: ["ean_reader"] // List of active readers
 		},
 	}, function(result) {
-		if(result.codeResult) {
+		if(result && result.codeResult) {
 			console.log('POW = '+result.codeResult.code);
 			callback(result.codeResult.code);
 		} else {

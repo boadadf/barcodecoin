@@ -132,7 +132,7 @@ Client.prototype = {
 			callback(g.transactions);
 		});
 	},
-	loadLastProof: function(decoder) {
+	loadLastProof: function(decoder, callback) {
 		var g = this;
 		callGet("/blockchain/lastproof", function(jsonResponse) {
 			var proof = jsonResponse['proof'];
@@ -141,7 +141,7 @@ Client.prototype = {
 				console.log('set last_proof:'+decodedValue);
 				g.last_proof = decodedValue;
 				console.log('set last_proof:'+this.last_proof);
-			});
+			}, callback);
 		});		
 	},
 	isValidToken: function( barcode_data) {

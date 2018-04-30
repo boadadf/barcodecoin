@@ -4,7 +4,7 @@ var barcode_image;
 var columnId = 0;
 var showResult = false;
 
-function init() {
+function init(callback) {
 	loadKey();
 	loadNodeName('node-field');
 	jQuery("#list4").jqGrid({ datatype: "local", shrinktofit:false, autowidth: true, height: 250, multiselect: true, colNames:['Id','Transaction', 'data'],
@@ -12,15 +12,15 @@ function init() {
 	caption: "Transaction list" , afterInsertRow: function(rowid, rowdata, rowelem) {
 	    $(this).jqGrid('setSelection', rowid, rowdata.verified);
 	}});
-	loadData();
+	loadData(callback);
 }
 
-function loadData() {
+function loadData(callback) {
 console.log('Loading data.....');
 	columnId = 0;
 	jQuery("#list4").jqGrid('clearGridData');
 	try {
-		client.loadLastProof(proofDecoder);
+		client.loadLastProof(proofDecoder,callback);
 		client.loadTransactions(verifyTransactions);		
 	} catch (e) {
 		alert('Cannot load last proof'+e);
@@ -78,7 +78,7 @@ function verifyTransactions(data) {
 	});
 }
 
-function proofDecoder(proof, callback) {	
+function proofDecoder(proof, callback, callback2) {	
 
 	Quagga.decodeSingle({
 		decoder: {
@@ -90,6 +90,9 @@ function proofDecoder(proof, callback) {
 			if(result.codeResult) {
 				callback(result.codeResult.code);
 				console.log(client.last_proof);
+				if(callback2) {
+					callback2();
+				}
 			} else {
 				alert('Cannot read proof!');
 			}
@@ -339,9 +342,11 @@ $(function() {
 			$( ".viewport" ).css("visibility", "hidden");
 			$( ".viewport" ).css("height", "0px");					
 			if(client.isValidToken(code)) {			
-			    barcode_image = data;
-				var $node = $('<li><button id="action-btn" class="btn-group" onclick="send();">Upload</button></li>');
-				$("#result_strip ul.thumbnails").prepend($node);				
+			       resizedataURL(data,300,300, function(resizedData) {
+				       barcode_image = resizedData;
+					var $node = $('<li><button id="action-btn" class="btn-group" onclick="send();">Upload</button></li>');
+					$("#result_strip ul.thumbnails").prepend($node);	
+				});							
 			} else {
 				barcode_image = null;
 				var $node = $('<li><div class="thumbnail"><p id="result-text" style="word-break: break-all;text-align:center;">No hash</p></div></li>');
@@ -352,6 +357,33 @@ $(function() {
         }
     });
 });
+
+function resizedataURL(datas, wantedWidth, wantedHeight, callback)
+    {
+        // We create an image to receive the Data URI
+        var img = document.createElement('img');
+
+        // When the event "onload" is triggered we can resize the image.
+        img.onload = function()
+            {        
+                // We create a canvas and get its context.
+                var canvas = document.createElement('canvas');
+                var ctx = canvas.getContext('2d');
+
+                // We set the dimensions at the wanted size.
+                canvas.width = wantedWidth;
+                canvas.height = wantedHeight;
+
+                // We resize the image with the canvas method drawImage();
+                ctx.drawImage(this, 0, 0, wantedWidth, wantedHeight);
+
+                var dataURI = canvas.toDataURL();
+		  callback(dataURI);
+              };
+
+        // We put the Data URI in the image's src attribute
+        img.src = datas;
+    }
 
 function getSelectedTransactions() {
 	var ret = [];
@@ -375,16 +407,23 @@ function send() {
 			barcode_image = null;
 			code = null;
 			showResult = false;
+            		 Quagga.stop();
 			loadData();
 	});
 }
 
 function readBarcode(){
-	$("#result_strip ul.thumbnails").empty();
-	$( ".viewport" ).css("visibility", "visible");
-	$( ".viewport" ).css("height", "300px");
-	showResult = true;
-	App.init();
+	
+	init(function() {	
+		$("#result_strip ul.thumbnails").empty();
+		$( ".viewport" ).empty();
+		$( ".viewport" ).css("visibility", "visible");
+		$( ".viewport" ).css("height", "300px");	
+		showResult = true;
+		App.detachListeners();
+		App.init();
+	});
+	
 }
 
 function onFileSelected(event) {
