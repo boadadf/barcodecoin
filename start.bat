@@ -1,1 +1,0 @@
-npm start -- --name edu1 --hostname 192.168.192.34 --port 8080 --register https://192.168.192.34:8443
