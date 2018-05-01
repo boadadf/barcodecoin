@@ -835,10 +835,14 @@ app.get('/stats', function(request, response) {
 		    if(Number(data.key)) {		    
 		       var block = JSON.parse(data.value);
 			   
-			   for(j = 0; j < block.transactions.length; j++) {			   
-					transactions++;
-			   if(block.transactions[j].sender==0) {
-					coins+=block.transactions[j].amount;
+			   for(var j = 0; j < block.transactions.length; j++) {			   
+				
+				var verifiedTransaction = cryptico.verify(block.transactions[j]);
+				var transaction = JSON.parse(verifiedTransaction.plaintext);
+
+				transactions++;
+			   	if(transaction .sender==0) {
+					coins+=transaction .amount;
 				}
 			   }			   
 		    }
