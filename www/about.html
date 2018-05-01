@@ -1,0 +1,44 @@
+<html>
+	
+    <head>      
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Expires" content="-1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" type="text/css" href="css/barcode.css">
+    </head>
+	<script language="JavaScript" type="text/javascript" src="js/client.js"></script>
+    <script>
+		callGet('stats', function(jsonResponse) {
+		var coins = jsonResponse.coins;
+		var transactions = jsonResponse.transactions;
+		var element = document.getElementById('stats-li');
+		element.innerHTML = 'So far '+transactions+' transactions have been registered and '+coins+' coins have been mined';
+	});
+	</script>
+    <body style="font-family: monospace;" onload="init();">
+		<p style="text-align:center;"><img src="img/barcode_big.png" style="width:50%" /></p>	
+			  <hr>
+			  <div>
+			  <h3>Barcodecoin</h3>
+			  <ul>
+			  <li>Blockchain implementation</li>
+			  <li>Created for educational purposes</li>
+			  <li>New coins are mined by scanning barcodes</li>
+			  <li id="stats-li">So far # transactions have been registered and  # coins have been mined</li>
+			  </ul>
+			  <h3>Press 'Start' to have a tour and learn about it</h3>
+			  </div> 		
+		<hr>
+		
+		<div>
+		 <div style="height:50px">
+			  <button class="btn-next" onclick="window.location = 'tour1.html';">Start</button>
+		</div> 
+		<div style="width:100%;">
+			<p id="key-field" style="word-break: break-all;text-align:center;">Key:?</p>	
+			<p id="node-field" style="word-break: break-all;text-align:center;">Node:?</p>	
+		</div>
+	</div>
+		</body>
+    
+</html>

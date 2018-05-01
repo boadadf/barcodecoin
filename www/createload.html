@@ -1,7 +1,7 @@
 <html>
 	
     <head>      
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
 			<script language="JavaScript" type="text/javascript" src="js/seq/aes.js"></script>
 					<script language="JavaScript" type="text/javascript" src="js/seq/jsbn.js"></script>
@@ -11,7 +11,7 @@
 													<script language="JavaScript" type="text/javascript" src="js/seq/api.js"></script>
 															<script language="JavaScript" type="text/javascript" src="js/js-sha256.js"></script>
 		<script language="JavaScript" type="text/javascript" src="js/client.js"></script>
-		<link rel="stylesheet" type="text/css" href="css/barcode.css">
+		<link rel="stylesheet" type="text/css" href="css/barcode.css" />
     </head>
     
     <body style="font-family: monospace" onload="loadKey();loadNodeName('node-field');">
@@ -22,7 +22,7 @@
 			  <button class="btn-group" onclick="client.createWallet();">Create wallet</button>
 			  <div class="btn-file" style=" text-align: center; display: grid;vertical-align: middle;">
 				  <label style="margin-top:5px;vertical-align:middle;display:inline-block;" for="files">Load wallet</label>
-				  <input id="files" style="visibility:hidden;" type="file" onchange="onFileSelected(event, client.loadWallet);">
+				  <input id="files" style="visibility:hidden;" type="file" onchange="onFileSelected(event, client.loadWallet);" />
 				</div>
 			  <button onclick="window.location.href='main.html'"class="btn-group">Back</button>
 		</div> 

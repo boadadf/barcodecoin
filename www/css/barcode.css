@@ -7,7 +7,7 @@
     display: block; /* Make the buttons appear below each other */
 	height: 50px;
 	font-weight: bold;
-	font-size: 30;
+	font-size: 30px;
 	margin-top:10px;
 }
 .btn-group {
@@ -18,8 +18,22 @@
     width: 100%; /* Set a width if needed */
     display: block; /* Make the buttons appear below each other */
 	height: 50px;
-	font-size: 30;
+	font-size: 30px;
 	margin-top:10px;
+}
+
+.btn-next {
+    background-color: #4CAF50; /* Green background */
+    border: 1px solid green; /* Green border */
+    color: white; /* White text */
+    cursor: pointer; /* Pointer/hand icon */
+    width: 100px; /* Set a width if needed */
+    display: block; /* Make the buttons appear below each other */
+	float: right;
+	height: 50px;
+	font-size: 30px;
+	margin-top:10px;
+	
 }
 
 .btn-file {
@@ -30,7 +44,7 @@
     width: 100%; /* Set a width if needed */
     display: block; /* Make the buttons appear below each other */
 	height: 50px;
-	font-size: 30;
+	font-size: 30px;
 	margin-top:10px;
 }
 label {
@@ -60,4 +74,16 @@ div.visualization {
    overflow:visible;
    background-color: #fff;
    color:transparent;
+}
+
+hr {
+  color: #4CAF50;
+}
+
+.container {
+   position: relative;
+float: left;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
 }

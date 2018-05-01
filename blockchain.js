@@ -827,6 +827,36 @@ app.get('/balance', function(request, response) {
 	
 });
 
+app.get('/stats', function(request, response) {
+	var coins = 0;
+	var transactions = 0;
+	persistence.createReadStream()
+		  .on('data', function (data) {
+		    if(Number(data.key)) {		    
+		       var block = JSON.parse(data.value);
+			   
+			   for(j = 0; j < block.transactions.length; j++) {			   
+					transactions++;
+			   if(block.transactions[j].sender==0) {
+					coins+=block.transactions[j].amount;
+				}
+			   }			   
+		    }
+		  })
+		  .on('error', function (err) {
+		    console.log('Oh my!', err);
+		  })
+		  .on('close', function () {
+		    console.log('Stream closed');
+		  })
+		  .on('end', function () {
+		   	response.status(200);
+			var ret = {"transactions":transactions,"coins":coins};
+			response.json(ret);
+		  });	
+	
+});
+
 app.get('/publicKeyID', function(request, response) {
         var ret = {
             'publicKeyID': blockchain.publicKeyID
