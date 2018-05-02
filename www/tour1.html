@@ -6,33 +6,43 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" type="text/css" href="css/barcode.css">
     </head>
-	<script language="JavaScript" type="text/javascript" src="js/client.js"></script>
-    <script>
-		callGet('stats', function(jsonResponse) {
-		var coins = jsonResponse.coins;
-		var transactions = jsonResponse.transactions;
-		var element = document.getElementById('stats-li');
-		element.innerHTML = 'So far '+transactions+' transactions have been registered and '+coins+' coins have been mined';
-	});
-	</script>
+
+			<script language="JavaScript" type="text/javascript" src="js/seq/aes.js"></script>
+					<script language="JavaScript" type="text/javascript" src="js/seq/jsbn.js"></script>
+							<script language="JavaScript" type="text/javascript" src="js/seq/random.js"></script>
+									<script language="JavaScript" type="text/javascript" src="js/seq/hash.js"></script>
+											<script language="JavaScript" type="text/javascript" src="js/seq/rsa.js"></script>
+													<script language="JavaScript" type="text/javascript" src="js/seq/api.js"></script>
+															<script language="JavaScript" type="text/javascript" src="js/js-sha256.js"></script>
+		<script language="JavaScript" type="text/javascript" src="js/client.js"></script>
     <body style="font-family: monospace;" onload="init();">
 		<p style="text-align:center;"><img src="img/barcode_big.png" style="width:50%" /></p>	
 			  <hr>
 			  <div>
-			  <h3>Barcodecoin</h3>
+			  <h2>Wallet</h2>
+			  <h4>First thing you need is a wallet to identify yourself against a server node and to manage your coins</h4>
 			  <ul>
-			  <li>Blockchain implementation</li>
-			  <li>Created for educational purposes</li>
-			  <li>New coins are mined by scanning barcodes</li>
-			  <li id="stats-li">So far # transactions have been registered and  # coins have been mined</li>
+			  <li>Your wallet is provided in a file generated in your own device when you request it</li>
+			  <li>The file contains two keys: public and private</li>
+			  <li>Each coin you mine and each transfer you send or receive is identified by your public key</li>
+			  <li>To transfer coins, your private key is used to sign your transfer</li>
+			  <li>We talk later about these. For now what you need to keep in mind is:</li>
+			  <ul>
+			  <li>You can share your public key with anyone, for example to receive transactions</li>
+			  <li>You should never share your private key or some one may impost you. For this reason the wallet file is created in your own device and never shared; <b>not even with the server.</b></li>
+			  <li>Keep the wallet safe</li>
+			  </ul>			  
 			  </ul>
-			  <h3>Press 'Start' to have a tour and learn about it</h3>
-			  </div> 		
+			  <h3>Press 'Create' to generate your wallet.<br>Your public key will be displayed below and your wallet saved in a file.</h3>
+			  </div> 	
+ <div >
+<button class="btn-group" onclick="client.createWallet();">Create wallet</button>	
+ </div >		  
 		<hr>
 		
 		<div>
 		 <div style="height:50px">
-			  <button class="btn-next" onclick="window.location = 'tour1.html';">Start</button>
+			  <button class="btn-next" onclick="window.location = 'tour2.html';">Next</button>
 		</div> 
 		<div style="width:100%;">
 			<p id="key-field" style="word-break: break-all;text-align:center;">Key:?</p>	

@@ -27,13 +27,13 @@
     border: 1px solid green; /* Green border */
     color: white; /* White text */
     cursor: pointer; /* Pointer/hand icon */
-    width: 100px; /* Set a width if needed */
+    width: 110px; /* Set a width if needed */
     display: block; /* Make the buttons appear below each other */
 	float: right;
 	height: 50px;
 	font-size: 30px;
 	margin-top:10px;
-	
+	margin-left:10px;
 }
 
 .btn-file {
@@ -80,10 +80,3 @@ hr {
   color: #4CAF50;
 }
 
-.container {
-   position: relative;
-float: left;
-top: 50%;
-left: 50%;
-transform: translate(-50%, -50%);
-}
