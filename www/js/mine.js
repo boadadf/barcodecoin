@@ -3,7 +3,7 @@ var code;
 var barcode_image;
 var columnId = 0;
 var showResult = false;
-
+var sending = false;
 function init(callback) {
 	loadKey();
 	loadNodeName('node-field');
@@ -394,8 +394,12 @@ function getSelectedTransactions() {
 	}	
 	return ret;
 }
-	
+
 function send() {
+	if(sending) {
+		return;
+	}
+	sending = true;
 	var publicKeyID = localStorage.getItem("publicKeyID");	
 	var message = "message="+encodeURIComponent(JSON.stringify({"wallet_id":publicKeyID, "barcode_image":barcode_image, "transactions": getSelectedTransactions()}));
 	upload('mine', message, function(jsonResponse) {
@@ -407,8 +411,9 @@ function send() {
 			barcode_image = null;
 			code = null;
 			showResult = false;
-            		 Quagga.stop();
+            Quagga.stop();
 			loadData();
+			sending = false;
 	});
 }
 
