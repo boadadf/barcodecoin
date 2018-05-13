@@ -946,6 +946,30 @@ app.post('/mine', function(request, response) {
 	}
 });
 
+app.get('/removelast', function(request, response) {
+       
+		var g = this;
+		console.log('The last:'+g.lastId);
+		persistence.get('lastId', function(err,data) {
+			var beforeId = data;
+			console.log('The last was '+beforeId);
+			persistence.del(beforeId);
+			beforeId = getId(Number(beforeId)-1);
+			persistence.put('lastId', beforeId);
+			persistence.get(beforeId, function(err,data) {
+				persistence.put('lastBlock', data);
+			});
+			
+			var ret = {
+				'status': 'ok'
+			};
+			response.status(200);
+			response.json(ret);
+		
+		});
+		
+});
+
 app.post('/transactions/new', function(request, response) {
 	console.log(request.body.message);
 	var transaction = decodeURIComponent(request.body.message);
