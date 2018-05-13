@@ -919,18 +919,9 @@ app.post('/mine', function(request, response) {
 		var hasReward = false;
 		transactions.forEach(function (transaction, index, ar) {
 			try {
-				if(hasReward && sender==0) {
-					var ret = {
-					'message': 'wrong_reward'};
-					response.status(200);
-					response.json(ret);			
-					return;
-				}
-				if(sender==0) {
-					hasReward = true;
-				}
-				blockchain.validateTransaction(transaction, function(status) {
+				blockchain.validateTransaction(transaction, function(status, sender) {
 					console.log('validated transaction:'+status);
+					
 					if(status!='') {
 						var ret = {'message': status};
 							response.status(200);
@@ -938,6 +929,16 @@ app.post('/mine', function(request, response) {
 							return;
 					}
 					console.log(index+'//'+ar.length);
+					if(hasReward && sender==0) {
+						var ret = {
+						'message': 'wrong_reward'};
+						response.status(200);
+						response.json(ret);			
+						return;
+					}
+					if(sender==0) {
+						hasReward = true;
+					}
 					if (index == ar.length-1) {
 					console.log('checkPOW');
 					checkPOW(last_image, barcode_image, powCheckListener);
