@@ -916,31 +916,42 @@ app.post('/mine', function(request, response) {
 	};
 	
 	if(transactions.length>0) {
-	transactions.forEach(function (transaction, index, ar) {
-		try {
-			blockchain.validateTransaction(transaction, function(status) {
-				console.log('validated transaction:'+status);
-				if(status!='') {
-					var ret = {'message': status};
-						response.status(200);
-						response.json(ret);			
-						return;
+		var hasReward = false;
+		transactions.forEach(function (transaction, index, ar) {
+			try {
+				if(hasReward && sender==0) {
+					var ret = {
+					'message': 'wrong_reward'};
+					response.status(200);
+					response.json(ret);			
+					return;
 				}
-				console.log(index+'//'+ar.length);
-				if (index == ar.length-1) {
-				console.log('checkPOW');
-				checkPOW(last_image, barcode_image, powCheckListener);
+				if(sender==0) {
+					hasReward = true;
 				}
-			});	
-		} catch(e) {
-			console.log('Error:'+e);
-			var ret = {
-				'message': e};
-			response.status(200);
-			response.json(ret);			
-			return;
-		}
-	});
+				blockchain.validateTransaction(transaction, function(status) {
+					console.log('validated transaction:'+status);
+					if(status!='') {
+						var ret = {'message': status};
+							response.status(200);
+							response.json(ret);			
+							return;
+					}
+					console.log(index+'//'+ar.length);
+					if (index == ar.length-1) {
+					console.log('checkPOW');
+					checkPOW(last_image, barcode_image, powCheckListener);
+					}
+				});	
+			} catch(e) {
+				console.log('Error:'+e);
+				var ret = {
+					'message': e};
+				response.status(200);
+				response.json(ret);			
+				return;
+			}
+		});
 	} else {
 		checkPOW(last_image, barcode_image, powCheckListener);
 	}
