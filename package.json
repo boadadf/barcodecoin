@@ -25,6 +25,7 @@
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",
     "cryptico-js": "^1.1.0",
+    "dotenv": "^5.0.1",
     "express": "^4.13.3",
     "hashmap": "^2.3.0",
     "js-sha256": "^0.9.0",
