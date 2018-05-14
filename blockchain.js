@@ -10,7 +10,7 @@ var http = require('http');
 
 var PORT = process.env.NODEJS_PORT || 8080;
 var IPADDRESS = process.env.NODEJS_IP || '0.0.0.0';
-var localURI = "https://"+IPADDRESS+":"+PORT;
+var LOCAL_URL = process.env.NODEJS_LOCAL_URL;
 var REGISTER = process.env.NODEJS_REGISTER_TO || 'https://1.1.1.1:8080';
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
@@ -30,9 +30,6 @@ cryptico.verify = function(plaintext) {
     plaintext = plaintext.split("::52cee64bb3a38f6403386519a39ac91c::");
     if(plaintext.length == 3)
     {
-    	console.log('publickey:'+plaintext[1]);
-	console.log('signature:'+plaintext[2]);
-	console.log('text:'+plaintext[0]);
         var publickey = cryptico.publicKeyFromString(plaintext[1]);
         var signature = cryptico.b64to16(plaintext[2]);
 
@@ -104,7 +101,6 @@ Blockchain.prototype = {
     },
     includeBlock(block, callback) {
 	var stringBlock = JSON.stringify(block);
-	console.log(stringBlock);
 	var g = this;
         persistence.put(block.index, stringBlock, function() {
 		g.lastBlock = block;	        
@@ -127,7 +123,6 @@ Blockchain.prototype = {
 		g.lastId = block.index;
 		console.log('storing lastid:'+block.index);
 		persistence.put('lastId', block.index, function() {
-			console.log('storing last block');
 			persistence.put('lastBlock', stringBlock, callback);  
 		});
 	});
@@ -173,7 +168,6 @@ Blockchain.prototype = {
 			return;
 		}
 		if(sender!=0 && sender!=cryptico.publicKeyID(validated.publicKeyString)) {
-		console.log(sender+'///'+validated.publicKeyString+'///'+cryptico.publicKeyID(validated.publicKeyString));
 			callback('fail_sender_not_signer');
 		}
 		if(sender==0 && amount!=25) {
@@ -197,7 +191,6 @@ Blockchain.prototype = {
 			callback('', sender);
 		} else {
 			this.getBalance(sender, function(balance) {
-				console.log('balance '+balance+' wallet '+sender+'  amount '+amount );
 				if(amount>balance) {
 					callback( 'has_no_enough_funds');
 				} else {
@@ -265,7 +258,7 @@ Blockchain.prototype = {
 						for (var i=remoteNodes.length-1;i>=0;i--){
 							var testNode = remoteNodes[i];
 							console.log('checking:'+testNode.url +' vs. '+ remoteNode.url);
-							if (testNode.url == remoteNode.url || testNode.url == localURI) {
+							if (testNode.url == remoteNode.url || testNode.url == LOCAL_URL) {
 								remoteNodes.splice(i,1);
 								found = true;
 								break;
@@ -323,14 +316,13 @@ Blockchain.prototype = {
 	
 	},
 	registerLocalInRemoteNode : function(remoteURL) {		
-		var message =  {'url':localURI};
+		var message =  {'url':LOCAL_URL};
 		httpPost(remoteURL+'/nodes/register', JSON.stringify(message));
 	},
 	getRemoteNodes : function(remoteURL, callback) {
 		httpGet(remoteURL+'/nodes/list', function(data) {
 				console.log('Received:'+data);
 				var remoteNodes = JSON.parse(data).nodes;
-				console.log('remote nodes:'+data);
 				callback(remoteNodes);
 		});
 	},
@@ -579,7 +571,6 @@ function checkPOW(last_image, next_image, callback) {
 	console.log('Checking POW');
 	getPOW(last_image,(last_proof)=>{		
 		if(last_proof) {
-		console.log('call next:'+last_image);
 			getPOW(next_image,(next_proof)=>{
 				if(next_proof) {
 					var guess = last_proof+''+ next_proof;
@@ -603,7 +594,6 @@ function httpGet(theUrl, callback, errorcallback) {
 	if(callback) {
 		xmlHttp.onreadystatechange = function() {//Call a function when the state changes.
 		    if(xmlHttp.readyState == xmlHttp.DONE && xmlHttp.status == 200) {
-		        console.log('Response:'+xmlHttp.responseText);
 			callback(xmlHttp.responseText);
 		    }
 		}	
@@ -628,7 +618,6 @@ function httpPost(theUrl,theData, callback, errorcallback) {
 	if(callback) {
 		xmlHttp.onreadystatechange = function() {//Call a function when the state changes.
 		    if(xmlHttp.readyState == XMLHttpRequest.DONE && xmlHttp.status == 200) {
-			console.log('received:'+xmlHttp.response);
 			callback(xmlHttp.responseText);
 		    }
 		}	
@@ -641,7 +630,6 @@ function httpPost(theUrl,theData, callback, errorcallback) {
 		    errorcallback(xmlHttp.statusText);
 		};
 	}
-	console.log('POST:'+theUrl+'  '+theData);
 	xmlHttp.send(theData); 
 }
 
@@ -665,7 +653,7 @@ function notifyBlock(url, callback) {
 			nodes.forEach(function(node) {				
 				if(node.url!=url) {
 					console.log('Notifying:'+node.url);
-					httpGet(node.url+'/blockchain/update?url='+encodeURIComponent(localURI));
+					httpGet(node.url+'/blockchain/update?url='+encodeURIComponent(LOCAL_URL));
 				}
 			});			
 		}
@@ -740,7 +728,6 @@ app.get('/blockchain/lastproof', function (request, response, next) {
 
 app.get('/transactions/list', function(request, response) {		
 	var ret = {'transactions':blockchain.current_transactions};	
-	console.log('return transactions:'+JSON.stringify(blockchain.current_transactions));
 	response.status(200);
         response.json(ret);
 });
@@ -958,6 +945,19 @@ app.post('/mine', function(request, response) {
 	}
 });
 
+app.get('/clearnodes', function(request, response) {
+       
+		
+			persistence.del('nodes');
+		
+			var ret = {
+				'status': 'ok'
+			};
+			response.status(200);
+			response.json(ret);
+		
+});
+
 app.get('/removelast', function(request, response) {
        
 		var g = this;
@@ -983,7 +983,6 @@ app.get('/removelast', function(request, response) {
 });
 
 app.post('/transactions/new', function(request, response) {
-	console.log(request.body.message);
 	var transaction = decodeURIComponent(request.body.message);
 	blockchain.validateTransaction(transaction, function(status, sender) {
 		console.log('validated transaction:'+status);
@@ -1039,7 +1038,7 @@ function initNext() {
 function startServer(callback) {
 	console.log('starting server...');
 	http.createServer(app).listen(PORT, IPADDRESS, function() {
-	    console.log('Server running at %s', localURI);
+	    console.log('Server running at %s:%s', IPADDRESS, PORT);
 	    console.log('...done starting server');
 	    callback();
 	});
@@ -1082,7 +1081,6 @@ function loadLastBlock(callback) {
 	console.log('loading last block...');
 	persistence.get('lastBlock', function(err,data) {
 		if(data) {
-			console.log('last block:'+data);
 			blockchain.lastBlock = JSON.parse(data);	
 			console.log('...done loading last block');
 			callback();			

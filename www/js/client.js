@@ -268,6 +268,7 @@ function loadNodeName(id = 'node-field') {
 		var name = jsonResponse.name;
 		var element = document.getElementById(id);
 		element.innerHTML = 'Node:'+name;
+		return name;
 	});
 }	
 
