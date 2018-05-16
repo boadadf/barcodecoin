@@ -157,7 +157,6 @@ Client.prototype = {
 			if('all'==amount) {
 				amount = balance;
 			}
-			alert(amount);
 			if(balance && !isNaN(balance) && Number(balance)>=amount) {			
 				var message = JSON.stringify({"sender":senderPublicKey,"recipient":recipient,"amount":amount, "timestamp":+new Date()});
 				var SignResult = cryptico.sign(message, senderPrivateKey);

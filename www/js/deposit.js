@@ -68,9 +68,7 @@ var video;
 			video.pause();
 			var keyJson = JSON.parse(decoded);		
 			var senderPrivateKey = RSAKey.fromJSON(keyJson['privateKey']);
-			alert('private:'+senderPrivateKey);
 			var senderPublicKeyID = createPublicKeyID(senderPrivateKey);		
-			alert('public:'+senderPublicKeyID);
 			transfer(senderPrivateKey, senderPublicKeyID);			
           } else if (!video.paused){
             resultDiv.innerHTML = "<div style='color: red; margin:15px;'>No QR Decoded</div>";
@@ -79,7 +77,6 @@ var video;
     }
 	
 	function transfer(senderPrivateKey, senderPublicKey) {
-		alert('transfer');
 		client.transferAll(senderPrivateKey, senderPublicKey, function(message) {
 			resultDiv.innerHTML = "<div style='color: green; margin:15px;'>QR Decoded! <span style='color: #000;'>"+message+"</span></div>";
 		});
