@@ -69,7 +69,7 @@ var video;
 			var keyJson = JSON.parse(decoded);		
 			var senderPrivateKey = RSAKey.fromJSON(keyJson['privateKey']);
 			alert('private:'+senderPrivateKey);
-			var senderPublicKeyID = client.createPublicKeyID(senderPrivateKey);		
+			var senderPublicKeyID = createPublicKeyID(senderPrivateKey);		
 			alert('public:'+senderPublicKeyID);
 			transfer(senderPrivateKey, senderPublicKeyID);			
           } else if (!video.paused){
