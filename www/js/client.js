@@ -177,7 +177,7 @@ Client.prototype = {
 		var recipientpublicKeyID = createPublicKeyID(recipientPrivateKey);		
 		this.transfer(client.privateKey, recipientpublicKeyID, amount, (status)=> {
 			if('accepted'==status) {
-				var jsonPrivateKey = JSON.stringify({'privateKey':recipientPrivateKey.toJSON(), 'publicKey':recipientpublicKeyID});
+				var jsonPrivateKey = JSON.stringify({'privateKey':recipientPrivateKey.toJSON());
 				callback(jsonPrivateKey);
 			} else {
 				callbackError(status);
