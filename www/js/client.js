@@ -150,15 +150,15 @@ Client.prototype = {
 		console.log('result:'+guessHash);
 		return guessHash.endsWith("0");
 	}, 
-	transfer: function(senderPrivateKey, recipient, amount, callback) {		
-		var url = "balance?wallet_id="+encodeURIComponent(this.publicKeyID);		
+	transfer: function(senderPrivateKey, recipient, amount, callback, senderPublicKey = this.publicKeyID) {		
+		var url = "balance?wallet_id="+encodeURIComponent(senderPublicKey);		
 		callGet(url, (jsonResponse)=>{
 			var balance = jsonResponse['balance'];
 			if('all'==amount) {
 				amount = balance;
 			}
 			if(balance && !isNaN(balance) && Number(balance)>=amount) {			
-				var message = JSON.stringify({"sender":this.publicKeyID,"recipient":recipient,"amount":amount, "timestamp":+new Date()});
+				var message = JSON.stringify({"sender":senderPublicKey,"recipient":recipient,"amount":amount, "timestamp":+new Date()});
 				var SignResult = cryptico.sign(message, senderPrivateKey);
 				var param = "message="+encodeURIComponent(SignResult);
 				upload("transactions/new", param, function(jsonResponse) {
@@ -182,8 +182,8 @@ Client.prototype = {
 				callbackError(status);
 			}
 		});
-	}, transferAll: function(senderPrivateKey, callback) {
-		this.transfer(senderPrivateKey, this.publicKeyID, 'all', callback);	
+	}, transferAll: function(senderPrivateKey, senderPublicKeyID, callback) {
+		this.transfer(senderPrivateKey, this.publicKeyID, 'all', callback, senderPublicKeyID);	
 	}		
 };
 
