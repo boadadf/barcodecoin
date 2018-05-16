@@ -150,7 +150,10 @@ Client.prototype = {
 		console.log('result:'+guessHash);
 		return guessHash.endsWith("0");
 	}, 
-	transfer: function(senderPrivateKey, recipient, amount, callback, senderPublicKey = this.publicKeyID) {		
+	transfer: function(senderPrivateKey, recipient, amount, callback, senderPublicKey) {	
+		if(!senderPublicKey) {
+			senderPublicKey = (this.publicKeyID);
+		}
 		var url = "balance?wallet_id="+encodeURIComponent(senderPublicKey);		
 		callGet(url, (jsonResponse)=>{
 			var balance = jsonResponse['balance'];
