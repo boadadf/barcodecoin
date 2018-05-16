@@ -157,6 +157,7 @@ Client.prototype = {
 			if('all'==amount) {
 				amount = balance;
 			}
+			alert(amount);
 			if(balance && !isNaN(balance) && Number(balance)>=amount) {			
 				var message = JSON.stringify({"sender":senderPublicKey,"recipient":recipient,"amount":amount, "timestamp":+new Date()});
 				var SignResult = cryptico.sign(message, senderPrivateKey);
@@ -183,6 +184,7 @@ Client.prototype = {
 			}
 		});
 	}, transferAll: function(senderPrivateKey, senderPublicKeyID, callback) {
+		alert('transfer all to:'+senderPublicKeyID);
 		this.transfer(senderPrivateKey, this.publicKeyID, 'all', senderPublicKeyID, callback);	
 	}		
 };
