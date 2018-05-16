@@ -32,7 +32,7 @@
 				return;
 			}
 			var amount = document.getElementById('amount-field').value;
-			client.transfer(client.privateKey, recipient, amount, function(message) {			
+			client.transfer(client.privateKey, recipient, amount, client.publicKeyID, function(message) {			
 				showMessage(message);
 			});
 		}
