@@ -67,15 +67,15 @@ var video;
             resultDiv.innerHTML = "<div style='color: green; margin:15px;'>QR Decoded!</div>";			
 			video.pause();
 			var keyJson = JSON.parse(decoded);			
-			transfer(RSAKey.fromJSON(keyJson['privateKey']));			
+			transfer(RSAKey.fromJSON(keyJson['privateKey'], RSAKey.fromJSON(keyJson['publicKey']));			
           } else if (!video.paused){
             resultDiv.innerHTML = "<div style='color: red; margin:15px;'>No QR Decoded</div>";
           }        
       }
     }
 	
-	function transfer(senderPrivateKey) {
-		client.transferAll(senderPrivateKey, function(message) {
+	function transfer(senderPrivateKey, senderPublicKey) {
+		client.transferAll(senderPrivateKey, senderPublicKey, function(message) {
 			resultDiv.innerHTML = "<div style='color: green; margin:15px;'>QR Decoded! <span style='color: #000;'>"+message+"</span></div>";
 		});
 	}
