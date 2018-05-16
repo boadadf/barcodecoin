@@ -1,0 +1,131 @@
+<html>
+	
+    <head>      
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Expires" content="-1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+					<script language="JavaScript" type="text/javascript" src="js/seq/aes.js"></script>
+					<script language="JavaScript" type="text/javascript" src="js/seq/jsbn.js"></script>
+							<script language="JavaScript" type="text/javascript" src="js/seq/random.js"></script>
+									<script language="JavaScript" type="text/javascript" src="js/seq/hash.js"></script>
+											<script language="JavaScript" type="text/javascript" src="js/seq/rsa.js"></script>
+													<script language="JavaScript" type="text/javascript" src="js/seq/api.js"></script>
+<script language="JavaScript" type="text/javascript" src="js/seq/cryptico.js"></script>													
+															<script language="JavaScript" type="text/javascript" src="js/js-sha256.js"></script>
+        <script language="JavaScript" type="text/javascript" src="js/client.js"></script>
+		<script>	
+	
+
+		
+		function init() {
+			loadKey();
+			loadNodeName();
+			client.loadServerPublicKey();
+		}
+
+		function send() {
+			showMessage('');
+			var recipient = document.getElementById('address-field').value;
+			recipient = recipient.trim();
+				
+			if(recipient.length!=32) {
+				showMessage('Wrong key');
+				return;
+			}
+			var amount = document.getElementById('amount-field').value;
+			client.transfer(client.privateKey, recipient, amount, function(message) {			
+				showMessage(message);
+			});
+		}
+		
+		function showMessage(message) {
+			document.getElementById('status-field').value=message;
+		}
+			
+        </script>
+		<link rel="stylesheet" type="text/css" href="css/barcode.css">
+    </head>
+	
+    <body style="font-family: monospace;" onload="init();">
+		<p style="text-align:center;"><img src="img/barcode_big.png" style="width:50%" /></p>	
+			  <hr>
+			  <div>
+			  <h2>Transfer</h2>
+			  <h4>Now that you got your first coins, you transfer them</h4>
+			  <ul>
+			  <li>To transfer them, just provide the id of the receiver and the amount you want to transfer</li>
+			  <li>Because everyone must be able to verify the the whole blockchain, the transactions are not encrypted.</li>
+			  <li>However, to ensure the legitimacity the transaction must be signed by the sender</li>
+			  <li>A transaction is composed of these parameters</li>
+			  <ul>
+			  <li>Sender public key</li>
+			  <li>Receiver public key</li>
+			  <li>Amount</li>
+			  <li>Timestamp</li>
+			  <li>Signature</li>
+			  </ul>
+			  <li>The signature is the result of a mathematic calculation that uses the private key of the sender plus the different fields of the transaction</li>
+			  <li>Because this signature was created using the private key of the sender, it can only be verified by the public key of the sender</li>
+			  <li>If any of the parameters of the transaction is modified once it is signed, the verification is no longer possible, thus making the transaction invalid</li>
+			  <li>This mechanism prevents imposting a sender or forging a transaction because only the sender has the private key that can create a signature verificable by its public key</li>
+			  <li>If the signature of a trsaction submitted to a server cannot be verified it is rejected by the node</li>
+			  <li>If transaction amount is higher to the balance of the sender, it is rejected by the node</li>
+			  <li>If a second transaction from the same user is submitted it is rejected to avoid double spending. Only one transaction per sender is allowed to be added in each block</li>
+			  <li>As explained in the previous point a transaction is only debited/credited when its block is added to the blockchain and this only happens whenever a new proof is mined. Hence the importance of the miners</li>
+			  </ul>			  
+			  <h3>You can try transfering to... my account: 3c6022edea0df5ab8e872d6620e34905</h3>
+			  
+			  </div> 	
+ <div>
+			<table  style="font-size:30px; width:100%; font-family:bold">
+			<tr>
+		    <td style="width:auto; text-align:left; white-space: nowrap">Destination</td><td style="width:100%;"><textarea id="address-field" style="width:100%; height:100px"></textarea></td>
+			</tr>
+			<tr>
+			<td style="width:auto; text-align:left; white-space: nowrap">Amount</td><td style="width:100%;"><input id="amount-field" type="number" style="width:100%; height:50px"></td>
+			</tr>
+			<tr>
+				<td style="width:auto; text-align:left; white-space: nowrap">Status</td><td style="width:100%;"><input id="status-field" type="text" disabled></td>
+			</tr>
+			</table>
+		</div>
+		 <div >
+			  <button onclick="send();" class="btn-group">Transfer</button>		 
+			  <button onclick="window.history.go(-1); return false;"class="btn-group">Back</button>
+		</div> 
+		<div style="width=100%">
+			<p id="key-field" style="word-break: break-all;text-align:center;">Key:?</p>	
+			<p id="node-field" style="word-break: break-all;text-align:center;">Node:?</p>	
+		</div>
+		<script type="text/javascript">
+			var textArea = document.getElementById("address-field");
+			textArea.addEventListener("keyup", sendCode);
+			
+			var textAmount = document.getElementById("amount-field");
+			textAmount.addEventListener("keyup", sendCode);
+
+			function sendCode(e) {
+				var clickedEl = e.target;
+				if(e.which == 13){
+					clickedEl.blur();
+					//rest of function
+					return false;
+				}
+			}
+		</script>	  
+		<hr>
+		
+		<div>
+		 <div style="height:50px">
+			 <button class="btn-next" onclick="window.location = 'tour4.html';">Next</button>
+			<button class="btn-next" onclick="window.location.href='tour2.html'">Back</button>
+			<button class="btn-next" onclick="window.location.href='main.html'">Cancel</button>
+		</div> 
+		<div style="width:100%;">
+			<p id="key-field" style="word-break: break-all;text-align:center;">Key:?</p>	
+			<p id="node-field" style="word-break: break-all;text-align:center;">Node:?</p>	
+		</div>
+	</div>
+		</body>
+    
+</html>
