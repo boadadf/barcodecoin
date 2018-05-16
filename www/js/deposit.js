@@ -67,7 +67,7 @@ var video;
             resultDiv.innerHTML = "<div style='color: green; margin:15px;'>QR Decoded!</div>";			
 			video.pause();
 			var keyJson = JSON.parse(decoded);			
-			transfer(RSAKey.fromJSON(keyJson['privateKey'], RSAKey.fromJSON(keyJson['publicKey']));			
+			transfer(RSAKey.fromJSON(keyJson['privateKey']), RSAKey.fromJSON(keyJson['publicKey']));			
           } else if (!video.paused){
             resultDiv.innerHTML = "<div style='color: red; margin:15px;'>No QR Decoded</div>";
           }        
